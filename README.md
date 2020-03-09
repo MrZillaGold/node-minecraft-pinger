@@ -10,7 +10,7 @@ A promise-based ES6 Minecraft pinger in Node.js
 
 ## Example
 ```javascript
-import { ping } from "PingMC";
+import { ping } from "pingmc";
 
 // Promise
 ping("localhost:25565")
