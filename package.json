@@ -1,7 +1,7 @@
 {
-  "name": "minecraft-pinger",
-  "version": "1.0.3",
-  "author": "Dennis Bruner <contact@dennisbruner.de>",
+  "name": "pingmc",
+  "version": "1.0.4",
+  "author": "MrZillaGold",
   "description": "A promise-based minecraft pinger in Node.js",
   "license": "MIT",
   "keywords": [
@@ -11,9 +11,9 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/dennisbruner/node-minecraft-pinger"
+    "url": "https://github.com/MrZillaGold/PingMC"
   },
-  "main": "lib/index.js",
+  "main": "lib/index.mjs",
   "scripts": {
     "test": "node ./node_modules/standard/bin/cmd.js"
   },
