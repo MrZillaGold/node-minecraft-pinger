@@ -6,7 +6,7 @@
 A promise-based ES6 Minecraft pinger in Node.js
 
 ## Install
-`npm i https://github.com/MrZillaGold/PingMC.git`
+`npm i pingmc`
 
 ## Example
 ```javascript
