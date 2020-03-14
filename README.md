@@ -18,7 +18,7 @@ ping("localhost:25565")
   .catch(console.error);
 
 // Async
-ping("localhost:25565", (error, result) => {
+ping("localhost:25565", (result, error) => {
   if (error) return console.error(error)
 
   console.log(result)
