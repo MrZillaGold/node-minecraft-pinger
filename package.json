@@ -1,7 +1,7 @@
 {
   "name": "pingmc",
-  "version": "1.0.7",
-  "author": "MrZillaGold",
+  "version": "2.0.0",
+  "author": "MrZillaGold <Pronin Egor>",
   "description": "A promise-based minecraft pinger in Node.js",
   "license": "MIT",
   "keywords": [
@@ -14,12 +14,6 @@
     "url": "https://github.com/MrZillaGold/PingMC"
   },
   "main": "lib/index.mjs",
-  "scripts": {
-    "test": "node ./node_modules/standard/bin/cmd.js"
-  },
-  "devDependencies": {
-    "standard": "^7.1.2"
-  },
   "dependencies": {
     "node-int64": "^0.4.0",
     "varint": "^4.0.1"

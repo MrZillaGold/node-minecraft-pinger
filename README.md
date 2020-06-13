@@ -10,19 +10,13 @@ A promise-based ES6 Minecraft pinger in Node.js
 
 ## Example
 ```javascript
-import { ping } from "pingmc";
+import { PingMC } from "pingmc";
 
-// Promise
-ping("localhost:25565")
-  .then(console.log)
-  .catch(console.error);
+new PingMC("mc.hypixel.net:25565")
+    .ping()
+    .then((data) => console.log(data))
+    .catch((error) => console.log(error))
 
-// Async
-ping("localhost:25565", (result, error) => {
-  if (error) return console.error(error)
-
-  console.log(result)
-});
 ```
 
 ## License
