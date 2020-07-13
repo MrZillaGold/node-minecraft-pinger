@@ -1,13 +1,15 @@
 {
   "name": "pingmc",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "author": "MrZillaGold <Pronin Egor>",
-  "description": "A promise-based minecraft pinger in Node.js",
+  "description": "Promise-based Minecraft pinger in Node.js",
   "license": "MIT",
   "keywords": [
     "ping",
     "minecraft",
-    "server"
+    "server",
+    "query",
+    "srv"
   ],
   "repository": {
     "type": "git",
