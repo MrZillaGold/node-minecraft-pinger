@@ -1,18 +1,17 @@
 # PingMC
 
-[![js-standard-style](https://img.shields.io/badge/code%20style-standard-yellowgreen.svg)](http://standardjs.com/)
-[![license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md)
-
 A promise-based ES6 Minecraft pinger in Node.js
 
-## Install
+## 📦 Install
 `npm i pingmc`
 
 ## Example
 ```javascript
-import { PingMC } from "pingmc";
+import { PingMC } from "pingmc"; // ES6
+// OR
+const { PingMC } = require("pingmc"); // ES5
 
-new PingMC("mc.hypixel.net:25565")
+new PingMC("mc.hypixel.net")
     .ping()
     .then((data) => console.log(data))
     .catch((error) => console.log(error))
