@@ -1,16 +1,16 @@
 {
   "name": "pingmc",
-  "version": "2.0.7",
+  "version": "2.0.8",
   "author": "MrZillaGold <Pronin Egor>",
   "description": "Promise-based Minecraft pinger in Node.js",
   "license": "MIT",
   "scripts": {
     "build": "build-esm"
   },
-  "main": "./dist/lib/index.js",
+  "main": "./dist/index.js",
   "exports": {
     ".": {
-      "require": "./dist/lib/index.js",
+      "require": "./dist/index.js",
       "default": "./lib/index.mjs"
     }
   },
