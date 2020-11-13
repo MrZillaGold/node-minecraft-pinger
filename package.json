@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "node-int64": "^0.4.0",
-    "varint": "^4.0.1"
+    "varint": "^6.0.0"
   },
   "devDependencies": {
     "build-esm": "^4.2.2"
