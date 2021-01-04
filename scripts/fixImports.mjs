@@ -5,7 +5,8 @@ const BUILD_DIR = "./dist";
 fs.readdir(BUILD_DIR)
     .then((files) => {
         files.forEach(async (file) => {
-            if (file.endsWith(".js")) {
+            console.log(file)
+            if (file.endsWith(".js") && file !== "Result.js") {
                 const filePath = `${BUILD_DIR}/${file}`;
 
                 fs.readFile(filePath)
