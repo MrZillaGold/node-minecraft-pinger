@@ -1,11 +1,11 @@
 {
   "name": "pingmc",
-  "version": "2.0.9",
+  "version": "2.1.0",
   "author": "MrZillaGold <Pronin Egor>",
   "description": "Promise-based Minecraft pinger in Node.js",
   "license": "MIT",
   "scripts": {
-    "build": "build-esm"
+    "build": "babel lib --out-dir dist && node --experimental-modules --es-module-specifier-resolution=node ./scripts/fixImports.mjs"
   },
   "main": "./dist/index.js",
   "exports": {
@@ -14,7 +14,7 @@
       "default": "./lib/index.mjs"
     }
   },
-  "module": "./lib/index.mjs",
+  "module": "lib/PingMC.mjs",
   "keywords": [
     "ping",
     "minecraft",
@@ -31,6 +31,11 @@
     "varint": "^6.0.0"
   },
   "devDependencies": {
-    "build-esm": "^4.2.2"
+    "@babel/cli": "^7.12.1",
+    "@babel/core": "^7.12.3",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.12.1",
+    "@babel/plugin-transform-modules-commonjs": "^7.12.1",
+    "@babel/plugin-transform-runtime": "^7.12.1",
+    "@babel/preset-env": "^7.12.1"
   }
 }
