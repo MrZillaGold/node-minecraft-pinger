@@ -1,4 +1,5 @@
-import Int64 from "node-int64";
+// @ts-ignore
+import * as Int64 from "node-int64";
 import * as varint from "varint";
 import { Writable } from "stream";
 

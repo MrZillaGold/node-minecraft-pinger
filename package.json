@@ -1,6 +1,6 @@
 {
   "name": "pingmc",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "author": "MrZillaGold <Pronin Egor | mrzillagold@gmail.com>",
   "description": "Promise-based Minecraft pinger in Node.js",
   "license": "MIT",

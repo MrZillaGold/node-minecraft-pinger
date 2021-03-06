@@ -1,5 +1,6 @@
+// @ts-ignore
+import * as Int64 from "node-int64";
 import * as varint from "varint";
-import Int64 from "node-int64";
 
 import { IParsedServer } from "./interfaces";
 
