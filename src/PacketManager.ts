@@ -23,13 +23,16 @@ export class PacketManager {
     }
 
     createHandshakePacket(): Buffer {
+        const portBuffer = Buffer.alloc(2);
+
+        portBuffer.writeUInt16BE(this.port, 0);
+
         // Return hansdhake packet with request packet https://wiki.vg/Server_List_Ping#Handshake
         return this.createPacket(0, Buffer.concat([
             Buffer.from(varint.encode(-1)), // Protocol version
             Buffer.from(varint.encode(this.hostname.length)), // Hostname Length
             Buffer.from(this.hostname, "utf8"), // Hostname
-            // @ts-ignore
-            Buffer.alloc(2).writeUInt16BE(this.port, 0), // Port
+            portBuffer, // Port
             Buffer.from(varint.encode(1)) // Next State
         ]));
     }
