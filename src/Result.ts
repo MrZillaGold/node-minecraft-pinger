@@ -1,25 +1,29 @@
-const colors = new Map([
-    ["black", 0],
-    ["dark_blue", 1],
-    ["dark_green", 2],
-    ["dark_aqua", 3],
-    ["dark_red", 4],
-    ["dark_purple", 5],
-    ["gold", 6],
-    ["gray", 7],
-    ["dark_gray", 8],
-    ["blue", 9],
+import { IFavicon, IMods, IMotd, IPlayers, IRawResult, IResult, IText, IVersion } from "./interfaces";
+
+const colors = new Map<IText["color"], string>([
+    ["black", "0"],
+    ["dark_blue", "1"],
+    ["dark_green", "2"],
+    ["dark_aqua", "3"],
+    ["dark_red", "4"],
+    ["dark_purple", "5"],
+    ["gold", "6"],
+    ["gray", "7"],
+    ["dark_gray", "8"],
+    ["blue", "9"],
     ["green", "a"],
     ["aqua", "b"],
     ["red", "c"],
     ["light_purple", "d"],
     ["yellow", "e"],
     ["white", "f"],
-    ["reset", "r"],
+    ["reset", "r"]
 ]);
 
 // https://wiki.vg/Protocol_version_numbers
-const versions = new Map([
+const versions = new Map<IVersion["major"], [number] | [number, number]>([
+    ["1.17", [755]],
+    ["1.16.5", [754]], // 1.16.4 - 1.16.5 = 754
     ["1.16.3", [752, 753]],
     ["1.16.2", [738, 751]],
     ["1.16.1", [736]],
@@ -59,55 +63,56 @@ const versions = new Map([
 
 export class Result {
 
-    constructor(result) {
+    result: IRawResult;
+
+    constructor(result: IRawResult) {
         this.result = result;
     }
 
-    parse() {
+    parse(): IResult {
         return {
             motd: this.getMotd(),
             players: this.getPlayers(),
             favicon: this.getFavicon(),
             mods: this.getMods(),
-            version: this.getVersion()
-        }
+            version: this.getVersion(),
+            ping: null
+        };
     }
 
-    getMotd() {
+    private getMotd(): IMotd {
         const { description } = this.result;
 
-        let motd = {
-            default: null,
-            clear: null
+        const motd = {
+            default: "",
+            clear: ""
         };
 
-        if (description?.text || description?.extra || description?.translate) {
-            if (description?.text || description?.translate) {
-                motd.default = description?.text || description?.translate;
-            }
+        if (typeof description === "object") {
+            motd.default = description?.text ?? description?.translate ?? "";
 
             if (description?.extra) {
                 motd.default = this.parseExtra(description.extra);
             }
         } else {
-            motd.default = description.text === "" ? "" : description;
+            motd.default = description;
         }
 
-        motd.clear = motd.default.clearFormatting();
+        motd.clear = clearFormatting(motd.default);
 
         return motd;
     }
 
-    getMods() {
+    private getMods(): IMods {
         const { modinfo } = this.result;
 
-        if (modinfo && modinfo.modList.length > 0) {
+        if (modinfo?.modList && modinfo?.modList?.length > 0) {
             const { modList } = modinfo;
 
             return {
                 names: modList.map(({ modid }) => modid),
                 list: modList
-            }
+            };
         }
 
         return {
@@ -116,9 +121,9 @@ export class Result {
         };
     }
 
-    getFavicon() {
+    private getFavicon(): IFavicon {
         return {
-            icon: this.result?.favicon,
+            icon: this.result?.favicon || null,
             data: this.result?.favicon ?
                 Buffer.from(this.result.favicon.replace("data:image/png;base64,", ""), "base64")
                 :
@@ -126,7 +131,7 @@ export class Result {
         };
     }
 
-    getPlayers() {
+    private getPlayers(): IPlayers {
         const { players: { max, online, sample } } = this.result;
 
         return {
@@ -137,11 +142,12 @@ export class Result {
                     .filter(({ name }) => name.match(/^[A-Za-z0-9_]{1,16}$/g))
                     .map(({ name }) => name)
                 :
-                []
-        }
+                [],
+            sample: sample ?? []
+        };
     }
 
-    getVersion() {
+    private getVersion(): IVersion {
         const { version } = this.result;
 
         const { protocol, name } = version;
@@ -151,11 +157,11 @@ export class Result {
         return {
             protocol,
             major,
-            name: name !== major ? name.clearFormatting() : "Vanilla"
-        }
+            name: name !== major ? clearFormatting(name) : "Vanilla"
+        };
     }
 
-    parseExtra(extra) {
+    private parseExtra(extra: IText[]): string {
         return extra.map(({ color, bold, italic, underlined, strikethrough, obfuscated, text }) => {
             if (bold) {
                 text = `§l${text}`;
@@ -186,7 +192,7 @@ export class Result {
             .join("");
     }
 
-    getMajorVersion(protocol) {
+    private getMajorVersion(protocol: number): IVersion["major"] {
         return [...versions.entries()]
             .filter(([, protocols]) => {
                 if (protocols.length === 2) {
@@ -200,10 +206,10 @@ export class Result {
                 }
             })
             .map(([major]) => major)
-            .join("");
+            .join("") as IVersion["major"];
     }
 }
 
-String.prototype.clearFormatting = function() {
-    return this.replace(/§./g, "");
-};
+function clearFormatting(string: string): string {
+    return string.replace(/§./g, "");
+}

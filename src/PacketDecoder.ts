@@ -1,18 +1,22 @@
-import varint from "varint";
 import Int64 from "node-int64";
+import * as varint from "varint";
 import { Writable } from "stream";
 
-import { Result } from "./Result.mjs";
+import { Result } from "./Result";
+
+import { IDecodedPacket, IPacket } from "./interfaces";
 
 export class PacketDecoder extends Writable {
 
-    constructor (options) {
-        super(options);
+    buffer: Buffer;
+
+    constructor() {
+        super();
 
         this.buffer = Buffer.alloc(0);
     }
 
-    decodePacket(buffer) {
+    decodePacket(buffer: Buffer): Promise<IPacket> {
         return new Promise((resolve, reject) => {
             // Decode packet length
             const packetLength = varint.decode(buffer, 0);
@@ -30,7 +34,7 @@ export class PacketDecoder extends Writable {
             }
 
             // Decode packet id
-            const packetId = varint.decode(buffer, varint.encodingLength(packetLength))
+            const packetId = varint.decode(buffer, varint.encodingLength(packetLength));
             if (packetId === undefined) {
                 return reject(
                     new Error("Could not decode packetId")
@@ -49,7 +53,7 @@ export class PacketDecoder extends Writable {
         });
     }
 
-    decodeHandshakeResponse(packet) {
+    decodeHandshakeResponse(packet: IPacket): IDecodedPacket {
         // Read json response field
         const responseLength = varint.decode(packet.data, 0);
         const response = JSON.parse(
@@ -57,46 +61,47 @@ export class PacketDecoder extends Writable {
                 varint.encodingLength(responseLength),
                 varint.encodingLength(responseLength) + responseLength
             )
+                .toString()
         );
 
         return {
             ...packet,
-            result: {
-                ...new Result(response)
-                    .parse()
-            }
+            result: new Result(response)
+                .parse()
         };
     }
 
-    decodePong(packet) {
-        const timestamp = new Int64(packet.data);
+    decodePong(packet: IPacket): IDecodedPacket {
+        const timestamp = new Int64(packet.data)
+            .toNumber();
 
-        packet.result = Date.now() - timestamp;
+        (packet as IDecodedPacket).result = Date.now() - timestamp;
 
-        return packet;
+        return packet as IDecodedPacket;
     }
 
-    _write(chunk, encoding, callback) {
+    _write(chunk: Buffer, encoding: BufferEncoding, callback: () => void): void {
         this.buffer = Buffer.concat([this.buffer, chunk]);
 
         this.decodePacket(this.buffer)
             .then((packet) => {
-                if (!packet) {
-                    return;
-                }
-
-                switch (packet.id) {
-                    case 0:
-                        return this.decodeHandshakeResponse(packet);
-                    case 1:
-                        return this.decodePong(packet);
+                if (packet) {
+                    switch (packet.id) {
+                        case 0:
+                            return this.decodeHandshakeResponse(packet);
+                        case 1:
+                            return this.decodePong(packet);
+                    }
                 }
             })
             .then((packet) => {
-                // Remove packet from internal buffer
-                this.buffer = this.buffer.slice(packet.bytes);
+                if (packet) {
+                    // Remove packet from internal buffer
+                    this.buffer = this.buffer.slice(packet.bytes);
 
-                this.emit("packet", packet.result);
+                    this.emit("packet", packet.result);
+                }
+
                 callback();
             })
             .catch(() => callback());

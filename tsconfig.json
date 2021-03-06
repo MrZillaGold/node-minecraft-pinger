@@ -1,0 +1,18 @@
+{
+  "include": [
+    "src"
+  ],
+  "compilerOptions": {
+    "lib": [
+      "ESNext"
+    ],
+    "outDir": "build",
+    "declaration": true,
+    "experimentalDecorators": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "target": "ESNext"
+  }
+}

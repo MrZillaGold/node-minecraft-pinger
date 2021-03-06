@@ -1,20 +1,27 @@
 {
   "name": "pingmc",
-  "version": "2.1.1",
-  "author": "MrZillaGold <Pronin Egor>",
+  "version": "3.0.0",
+  "author": "MrZillaGold <Pronin Egor | mrzillagold@gmail.com>",
   "description": "Promise-based Minecraft pinger in Node.js",
   "license": "MIT",
   "scripts": {
-    "build": "babel lib --out-dir dist && node --experimental-modules --es-module-specifier-resolution=node ./scripts/fixImports.mjs"
+    "build": "tsc && node --experimental-modules --es-module-specifier-resolution=node ./scripts/cleanUpBuild.mjs && babel build --out-dir dist --copy-files",
+    "eslint:check": "eslint ./src/**/*",
+    "eslint:fix": "eslint ./src/**/* --fix"
   },
   "main": "./dist/PingMC.js",
   "exports": {
-    ".": {
-      "require": "./dist/PingMC.js",
-      "default": "./lib/PingMC.mjs"
-    }
+    ".": [
+      {
+        "require": "./dist/PingMC.js",
+        "import": "./esm/PingMC.mjs"
+      },
+      "./dist/PingMC.js"
+    ],
+    "./esm": "./esm/PingMC.mjs"
   },
-  "module": "lib/PingMC.mjs",
+  "types": "./dist/interfaces/index.d.ts",
+  "module": "esm/PingMC.mjs",
   "keywords": [
     "ping",
     "minecraft",
@@ -33,9 +40,15 @@
   "devDependencies": {
     "@babel/cli": "^7.12.1",
     "@babel/core": "^7.12.3",
+    "@typescript-eslint/eslint-plugin": "^4.16.1",
+    "@typescript-eslint/parser": "^4.16.1",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.12.1",
     "@babel/plugin-transform-modules-commonjs": "^7.12.1",
-    "@babel/plugin-transform-runtime": "^7.12.1",
-    "@babel/preset-env": "^7.12.1"
+    "@babel/preset-env": "^7.12.1",
+    "@types/node": "^14.14.31",
+    "@types/node-int64": "^0.4.29",
+    "@types/varint": "^6.0.0",
+    "eslint": "^7.21.0",
+    "typescript": "^4.2.3"
   }
 }
