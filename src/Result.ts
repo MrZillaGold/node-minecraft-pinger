@@ -184,7 +184,7 @@ export class Result {
             }
 
             if (color) {
-                text = `§${colors.get(color)}${text}`;
+                text = `${colors.has(color) ? `§${colors.get(color)}` : ""}${text}`;
             }
 
             return text;
