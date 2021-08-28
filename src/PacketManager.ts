@@ -1,11 +1,11 @@
-import * as varint from "varint";
+import * as varint from 'varint';
 
-import { IParsedServer } from "./interfaces";
+import { IParsedServer } from './interfaces';
 
 export class PacketManager {
 
-    hostname: IParsedServer["hostname"];
-    port: IParsedServer["port"];
+    hostname: IParsedServer['hostname'];
+    port: IParsedServer['port'];
 
     constructor({ hostname, port }: IParsedServer) {
         this.hostname = hostname;
@@ -29,7 +29,7 @@ export class PacketManager {
         return this.createPacket(0, Buffer.concat([
             Buffer.from(varint.encode(-1)), // Protocol version
             Buffer.from(varint.encode(this.hostname.length)), // Hostname Length
-            Buffer.from(this.hostname, "utf8"), // Hostname
+            Buffer.from(this.hostname, 'utf8'), // Hostname
             portBuffer, // Port
             Buffer.from(varint.encode(1)) // Next State
         ]));

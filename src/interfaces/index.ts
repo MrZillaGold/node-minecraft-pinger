@@ -1,5 +1,5 @@
-export * from "./PingMC";
-export * from "./Result";
-export * from "./PackerDecoder";
+export * from './PingMC';
+export * from './Result';
+export * from './PackerDecoder';
 
-export { PingMC } from "../PingMC";
+export { PingMC } from '../PingMC';

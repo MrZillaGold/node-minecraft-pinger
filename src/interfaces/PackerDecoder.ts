@@ -1,4 +1,4 @@
-import { IResult } from "./Result";
+import { IResult } from './Result';
 
 export interface IPacket {
     id: number;

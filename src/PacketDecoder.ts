@@ -1,9 +1,9 @@
-import * as varint from "varint";
-import { Writable } from "stream";
+import * as varint from 'varint';
+import { Writable } from 'stream';
 
-import { Result } from "./Result";
+import { Result } from './Result';
 
-import { IDecodedPacket, IPacket } from "./interfaces";
+import { IDecodedPacket, IPacket } from './interfaces';
 
 export class PacketDecoder extends Writable {
 
@@ -21,14 +21,14 @@ export class PacketDecoder extends Writable {
             const packetLength = varint.decode(buffer, 0);
             if (packetLength === undefined) {
                 return reject(
-                    new Error("Could not decode packetLength")
+                    new Error('Could not decode packetLength')
                 );
             }
 
             // Check if packet is long enough
             if (buffer.length < varint.encodingLength(packetLength) + packetLength) {
                 return reject(
-                    new Error("Packet is not complete")
+                    new Error('Packet is not complete')
                 );
             }
 
@@ -36,7 +36,7 @@ export class PacketDecoder extends Writable {
             const packetId = varint.decode(buffer, varint.encodingLength(packetLength));
             if (packetId === undefined) {
                 return reject(
-                    new Error("Could not decode packetId")
+                    new Error('Could not decode packetId')
                 );
             }
 
@@ -71,7 +71,7 @@ export class PacketDecoder extends Writable {
     }
 
     decodePong(packet: IPacket): IDecodedPacket {
-        const timestamp = Number(BigInt(`0x${packet.data.toString("hex")}`));
+        const timestamp = Number(BigInt(`0x${packet.data.toString('hex')}`));
 
         (packet as IDecodedPacket).result = Date.now() - timestamp;
 
@@ -97,7 +97,7 @@ export class PacketDecoder extends Writable {
                     // Remove packet from internal buffer
                     this.buffer = this.buffer.slice(packet.bytes);
 
-                    this.emit("packet", packet.result);
+                    this.emit('packet', packet.result);
                 }
 
                 callback();

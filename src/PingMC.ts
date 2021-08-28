@@ -1,10 +1,10 @@
-import * as net from "net";
-import * as dns from "dns";
+import * as net from 'net';
+import * as dns from 'dns';
 
-import { PacketDecoder } from "./PacketDecoder";
-import { PacketManager } from "./PacketManager";
+import { PacketDecoder } from './PacketDecoder';
+import { PacketManager } from './PacketManager';
 
-import { IParsedServer, IResult } from "./interfaces";
+import { IParsedServer, IResult } from './interfaces';
 
 export class PingMC {
 
@@ -48,7 +48,7 @@ export class PingMC {
 
               if (!result) {
                   return reject(
-                      new Error("Empty result")
+                      new Error('Empty result')
                   );
               } else {
                   if (result.length === 0) {
@@ -79,22 +79,22 @@ export class PingMC {
               connection.write(packetManager.createHandshakePacket());
               connection.write(packetManager.createEmptyPacket());
 
-              packetDecoder.once("error", (error) => {
+              packetDecoder.once('error', (error) => {
                   connection.destroy();
                   clearTimeout(timeout);
 
                   reject(error);
               });
 
-              packetDecoder.once("packet", (data) => {
+              packetDecoder.once('packet', (data) => {
                   // Write ping packet
                   connection.write(packetManager.createPingPacket(Date.now()));
 
-                  packetDecoder.once("packet", (ping) => {
+                  packetDecoder.once('packet', (ping) => {
                       connection.end();
                       clearTimeout(timeout);
 
-                      data.ping = typeof ping === "number" ?
+                      data.ping = typeof ping === 'number' ?
                           ping
                           :
                           null;
@@ -105,7 +105,7 @@ export class PingMC {
           });
 
           // Destroy on error
-          connection.once("error", (error) => {
+          connection.once('error', (error) => {
               connection.destroy();
               clearTimeout(timeout);
 
@@ -113,18 +113,18 @@ export class PingMC {
           });
 
           // Destroy on timeout
-          connection.once("timeout", () => {
+          connection.once('timeout', () => {
               connection.destroy();
               clearTimeout(timeout);
 
-              reject(new Error("Timed out"));
+              reject(new Error('Timed out'));
           });
 
           // Packet timeout
           const timeout = setTimeout(() => {
               connection.end();
 
-              reject(new Error("Timed out"));
+              reject(new Error('Timed out'));
           }, this.timeout);
       });
   }
