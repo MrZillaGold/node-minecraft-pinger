@@ -22,6 +22,7 @@ const colors = new Map<IText["color"], string>([
 
 // https://wiki.vg/Protocol_version_numbers
 const versions = new Map<IVersion["major"], [number] | [number, number]>([
+    ["1.17.1", [756]],
     ["1.17", [755]],
     ["1.16.5", [754]], // 1.16.4 - 1.16.5 = 754
     ["1.16.3", [752, 753]],
