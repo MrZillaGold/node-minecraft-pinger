@@ -1,5 +1,3 @@
-// @ts-ignore
-import * as Int64 from "node-int64";
 import * as varint from "varint";
 import { Writable } from "stream";
 
@@ -73,8 +71,7 @@ export class PacketDecoder extends Writable {
     }
 
     decodePong(packet: IPacket): IDecodedPacket {
-        const timestamp = new Int64(packet.data)
-            .toNumber();
+        const timestamp = Number(BigInt(`0x${packet.data.toString("hex")}`));
 
         (packet as IDecodedPacket).result = Date.now() - timestamp;
 

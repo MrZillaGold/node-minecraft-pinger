@@ -1,5 +1,3 @@
-// @ts-ignore
-import * as Int64 from "node-int64";
 import * as varint from "varint";
 
 import { IParsedServer } from "./interfaces";
@@ -38,7 +36,11 @@ export class PacketManager {
     }
 
     createPingPacket(timestamp: number): Buffer {
-        return this.createPacket(1, new Int64(timestamp).toBuffer());
+        const timestampBuffer = Buffer.allocUnsafe(8);
+
+        timestampBuffer.writeBigInt64BE(BigInt(timestamp), 0);
+
+        return this.createPacket(1, timestampBuffer);
     }
 
     createEmptyPacket(): Buffer {

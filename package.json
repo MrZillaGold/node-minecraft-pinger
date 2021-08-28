@@ -5,7 +5,8 @@
   "description": "Promise-based Minecraft pinger in Node.js",
   "license": "MIT",
   "scripts": {
-    "build": "tsc && node --experimental-modules --es-module-specifier-resolution=node ./scripts/cleanUpBuild.mjs && babel build --out-dir dist --copy-files",
+    "build": "tsc",
+    "postbuild": "node --experimental-modules --es-module-specifier-resolution=node ./scripts/cleanUpBuild.mjs && babel build --out-dir dist --copy-files",
     "eslint:check": "eslint ./src/**/*",
     "eslint:fix": "eslint ./src/**/* --fix"
   },
@@ -34,7 +35,6 @@
     "url": "https://github.com/MrZillaGold/PingMC"
   },
   "dependencies": {
-    "node-int64": "^0.4.0",
     "varint": "^6.0.0"
   },
   "devDependencies": {
