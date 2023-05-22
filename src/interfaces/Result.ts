@@ -68,7 +68,7 @@ export interface IPlayers {
 }
 
 interface IPlayer {
-    uuid: string;
+    id: string;
     name: string;
 }
 
@@ -113,7 +113,13 @@ export interface IVersion {
         | '1.16.3'
         | '1.16.5'
         | '1.17'
-        | '1.17.1';
+        | '1.17.1'
+        | '1.18.1'
+        | '1.18.2'
+        | '1.19'
+        | '1.19.2'
+        | '1.19.3'
+        | '1.19.4';
     name: string | 'Vanilla';
 }
 

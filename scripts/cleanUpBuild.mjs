@@ -1,6 +1,6 @@
 import { promises as fs } from "fs";
 
-import tsconfig from "../tsconfig.json";
+import tsconfig from "../tsconfig.json" assert { type: "json" };
 
 const OUT_DIR = tsconfig.compilerOptions.outDir;
 
